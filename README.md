@@ -6,5 +6,5 @@ Repositório para trabalhos da disciplina de Organização de Arquivos 2022.1
 * Comando para rodar o codigo(via terminal):
 ````
 gcc -o BuscaBin BuscaBin.c
-./busca-binaria [CEP PARA BUSCA]
+./BuscaBin [CEP PARA BUSCA]
 ````
