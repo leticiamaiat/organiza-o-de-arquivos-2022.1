@@ -92,7 +92,7 @@ int try(int argc, char** argv)
 			merge(arq_1, arq_2, output); 
 			remove(arq_1);					
 			remove(arq_2);				
-			proximo++;
+			proximo+=2;
 			contaPares += 2; 
 		}
 		qntdjuntos = qntdjuntos / 2; 
