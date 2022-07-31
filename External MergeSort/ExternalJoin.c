@@ -1,0 +1,65 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#pragma pack(1)
+
+typedef struct _Endereco Endereco;
+
+struct _Endereco
+{
+	char logradouro[72];
+	char bairro[72];
+	char cidade[72];
+	char uf[72];
+	char sigla[2];
+	char cep[8];
+	char lixo[2];
+};
+
+int compara(const void *e1, const void *e2)
+{
+	return strncmp(((Endereco*)e1)->cep,((Endereco*)e2)->cep,8);
+}
+
+void merge(char *arq, char *arq2, char *output) // função intercala
+{
+	FILE *a, *b, *saida;
+	Endereco ea, eb;
+
+	a = fopen(arq, "r");
+	b = fopen(arq2, "r");
+	saida = fopen(output, "wb");
+
+	fread(&ea, sizeof(Endereco), 1, a);
+	fread(&eb, sizeof(Endereco), 1, b); 
+
+	while (!feof(a) && !feof(b))
+	{
+		if (compara(&ea, &eb) < 0)
+		{
+			fwrite(&ea, sizeof(Endereco), 1, saida);
+			fread(&ea, sizeof(Endereco), 1, a);
+		}
+		else
+		{
+			fwrite(&eb, sizeof(Endereco), 1, saida);
+			fread(&eb, sizeof(Endereco), 1, b);
+		}
+	}
+
+	while (!feof(a))
+	{
+		fwrite(&ea, sizeof(Endereco), 1, saida);
+		fread(&ea, sizeof(Endereco), 1, a);
+	}
+	while (!feof(b))
+	{
+		fwrite(&eb, sizeof(Endereco), 1, saida);
+		fread(&eb, sizeof(Endereco), 1, b);
+	}
+
+	fclose(a);
+	fclose(b);
+	fclose(saida);
+}
